@@ -111,19 +111,21 @@ img {
 
 .nav-toggle span {
   display: block;
-  height: 2px;
+  width: 24px;
+  height: 3px;
   background: var(--text);
+  border-radius: 1px;
   transition: transform 0.2s, opacity 0.2s;
 }
 
 .nav-toggle[aria-expanded="true"] span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+  transform: translateY(6px) rotate(45deg);
 }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) {
   opacity: 0;
 }
 .nav-toggle[aria-expanded="true"] span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 .main-nav {
@@ -1004,58 +1006,32 @@ img {
   color: var(--text);
 }
 
-.process-carousel-section {
+/* Three circular images in a row (replaces carousel) */
+.process-three-images {
   background: #3a3a3a;
   padding: 2rem 1.5rem;
 }
 
-.process-carousel {
+.process-three-images-inner {
   max-width: 900px;
   margin: 0 auto;
-  position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
   align-items: center;
-  gap: 1rem;
+  justify-items: center;
 }
 
-.carousel-btn {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  color: var(--white);
-  border: none;
-  font-size: 1.75rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-}
-
-.carousel-btn:hover {
-  background: rgba(255,255,255,0.35);
-}
-
-.carousel-track {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  gap: 1rem;
-  scroll-snap-type: x mandatory;
-}
-
-.carousel-slide {
-  flex: 0 0 260px;
-  height: 260px;
+.process-circle {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 280px;
   border-radius: 50%;
   overflow: hidden;
-  scroll-snap-align: center;
   background: #2a2a2a;
 }
 
-.carousel-slide img {
+.process-circle img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1075,6 +1051,8 @@ img {
   justify-content: center;
 }
 
+/* .faq-bg is used in HTML; keep .faq-image-bg for backwards compatibility */
+.faq-bg,
 .faq-image-bg {
   position: absolute;
   inset: 0;
@@ -1084,6 +1062,7 @@ img {
   background-position: center;
 }
 
+.faq-bg::after,
 .faq-image-bg::after {
   content: '';
   position: absolute;
@@ -1134,12 +1113,12 @@ img {
 
 @media (max-width: 700px) {
   .process-card { padding: 1.5rem 1.25rem; margin: 0 1rem; }
-  .process-carousel { flex-wrap: wrap; justify-content: center; }
-  .carousel-btn { order: 3; }
-  .carousel-prev { order: 1; }
-  .carousel-next { order: 2; }
-  .carousel-track { order: 0; width: 100%; }
-  .carousel-slide { flex: 0 0 200px; height: 200px; }
+  .process-three-images-inner {
+    gap: 1rem;
+  }
+  .process-circle {
+    max-width: 200px;
+  }
   .faq-section { grid-template-columns: 1fr; }
   .faq-image-col { min-height: 200px; }
   .faq-content-col { padding: 1.5rem 1.25rem; }
