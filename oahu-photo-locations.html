@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oahu Photo Locations | Paige Curtis Photography</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Jost', sans-serif;
+      background: #faf9f7;
+      color: #2c2c2c;
+    }
+    .header {
+      background: #fff;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 1rem 1.5rem;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .header p {
+      font-size: 0.85rem;
+      color: #5a5a5a;
+      margin-top: 0.25rem;
+    }
+    #map {
+      width: 100%;
+      height: calc(100vh - 80px);
+      min-height: 400px;
+    }
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      padding: 0;
+      overflow: hidden;
+      min-width: 280px;
+      max-width: 320px;
+    }
+    .leaflet-popup-content {
+      margin: 0;
+      width: 100% !important;
+    }
+    .popup-inner {
+      background: #fff;
+    }
+    .popup-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      background: #e0ddd9;
+    }
+    .popup-body {
+      padding: 1rem 1.25rem;
+    }
+    .popup-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #2c2c2c;
+    }
+    .popup-desc {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #5a5a5a;
+    }
+    .leaflet-container a.leaflet-popup-close-button {
+      color: #666;
+      padding: 8px 12px 0 0;
+      font-size: 20px;
+    }
+
+    /* Password gate */
+    #gate {
+      position: fixed;
+      inset: 0;
+      background: #faf9f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1.5rem;
+    }
+    #gate.hidden { display: none; }
+    .gate-inner {
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+    }
+    .gate-inner h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #2c2c2c;
+    }
+    .gate-inner p {
+      font-size: 0.95rem;
+      color: #5a5a5a;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .gate-inner input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+    }
+    .gate-inner input:focus {
+      outline: none;
+      border-color: #6b4e9e;
+    }
+    .gate-inner .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #2c2c2c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+    }
+    .gate-inner .btn:hover { background: #6b4e9e; }
+    .gate-error {
+      font-size: 0.9rem;
+      color: #c00;
+      margin-top: 0.75rem;
+      display: none;
+    }
+    .gate-error.visible { display: block; }
+    #content { display: none; }
+    #content.visible { display: block; }
+  </style>
+</head>
+<body>
+  <div id="gate">
+    <div class="gate-inner">
+      <h2>Photo locations</h2>
+      <p>Enter the password Paige sent you to view your Oahu photo locations map.</p>
+      <form id="gate-form">
+        <input type="password" id="gate-password" placeholder="Password" autocomplete="off" autofocus>
+        <button type="submit" class="btn">View map</button>
+      </form>
+      <p class="gate-error" id="gate-error">Incorrect password. Please try again.</p>
+    </div>
+  </div>
+
+  <div id="content">
+    <div class="header">
+      <h1>Oahu Photo Locations</h1>
+      <p>Click a pin to see details — Paige Curtis Photography</p>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    (function () {
+      // ——— Change this to your preferred password (share only with clients who have booked) ———
+      var PAGE_PASSWORD = 'alohaphotos';
+
+      var STORAGE_KEY = 'oahu_map_ok';
+
+      var gate = document.getElementById('gate');
+      var content = document.getElementById('content');
+      var form = document.getElementById('gate-form');
+      var input = document.getElementById('gate-password');
+      var errEl = document.getElementById('gate-error');
+
+      function unlock() {
+        try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+        gate.classList.add('hidden');
+        content.classList.add('visible');
+        errEl.classList.remove('visible');
+        initMap();
+      }
+
+      function showError() {
+        errEl.classList.add('visible');
+        input.focus();
+      }
+
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (input.value.trim() === PAGE_PASSWORD) {
+            unlock();
+          } else {
+            showError();
+          }
+        });
+      }
+
+      if (sessionStorage.getItem(STORAGE_KEY) === '1') {
+        unlock();
+        return;
+      } else {
+        gate.classList.remove('hidden');
+      }
+
+      function initMap() {
+      var locations = [
+        {
+          name: 'Kahana Bay',
+          lat: 21.5556,
+          lng: -157.8746,
+          image: 'images/map-kahana.jpg',
+          description: 'Quiet windward bay with mountain backdrop and calm water. Great for golden hour and relaxed sessions.'
+        },
+        {
+          name: 'Crouching Lion',
+          lat: 21.5578,
+          lng: -157.8614,
+          image: 'images/map-crouching-lion.jpg',
+          description: 'Dramatic cliffs and ocean views. Iconic spot for adventurous couples and bold portraits.'
+        },
+        {
+          name: 'Lanikai Beach',
+          lat: 21.3914,
+          lng: -157.7150,
+          image: 'images/map-lanikai.jpg',
+          description: 'Powder-white sand and turquoise water with the Mokuluas in the distance. A classic Oahu favorite.'
+        },
+        {
+          name: 'Makapuu Beach',
+          lat: 21.3114,
+          lng: -157.6586,
+          image: 'images/map-makapuu.jpg',
+          description: 'Wide sandy beach with lighthouse views and strong ocean energy. Perfect for bold, scenic shots.'
+        },
+        {
+          name: 'Mokuleia Beach',
+          lat: 21.5814,
+          lng: -158.1936,
+          image: 'images/map-mokuleia.jpg',
+          description: 'North Shore stretch with fewer crowds. Great for open sky, driftwood, and golden light.'
+        },
+        {
+          name: 'Sunset Beach',
+          lat: 21.6778,
+          lng: -158.0386,
+          image: 'images/map-sunset.jpg',
+          description: 'Famous North Shore beach. Ideal for sunset sessions and that classic Hawaii vibe.'
+        },
+        {
+          name: 'Kaloko Beach',
+          lat: 21.3633,
+          lng: -157.9514,
+          image: 'images/map-kaloko.jpg',
+          description: 'West side gem with calm waters and less crowded shores. Nice for intimate sessions.'
+        },
+        {
+          name: 'Diamond Head Beach Park',
+          lat: 21.2558,
+          lng: -157.8070,
+          image: 'images/map-diamond-head.jpg',
+          description: 'Views of Diamond Head and the Pacific. Urban-meets-ocean with iconic Honolulu backdrop.'
+        },
+        {
+          name: 'Ala Moana Beach',
+          lat: 21.2887,
+          lng: -157.8483,
+          image: 'images/map-ala-moana.jpg',
+          description: 'Protected waters and long stretch of sand near town. Convenient and family-friendly.'
+        }
+      ];
+
+      var map = L.map('map').setView([21.45, -157.8], 10);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      var defaultImg = 'data:image/svg+xml,' + encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">' +
+        '<rect fill="#e8e6e3" width="320" height="180"/>' +
+        '<text x="160" y="92" text-anchor="middle" fill="#9a9a9a" font-family="sans-serif" font-size="14">Add your photo</text>' +
+        '<text x="160" y="108" text-anchor="middle" fill="#b0b0b0" font-family="sans-serif" font-size="11">e.g. images/map-lanikai.jpg</text>' +
+        '</svg>'
+      );
+
+      var icon = L.divIcon({
+        className: 'custom-pin',
+        html: '<span style="background:#6b4e9e;width:24px;height:24px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:block;"></span>',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+
+      locations.forEach(function (loc) {
+        var imgSrc = loc.image || defaultImg;
+        var content = '<div class="popup-inner">' +
+          '<img class="popup-image" src="' + imgSrc + '" alt="" onerror="this.src=\'' + defaultImg + '\'">' +
+          '<div class="popup-body">' +
+          '<div class="popup-title">' + escapeHtml(loc.name) + '</div>' +
+          '<div class="popup-desc">' + escapeHtml(loc.description) + '</div>' +
+          '</div></div>';
+        var marker = L.marker([loc.lat, loc.lng], { icon: icon })
+          .bindPopup(content, { maxWidth: 320 })
+          .addTo(map);
+      });
+
+      function escapeHtml(text) {
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+      } // end initMap
+    })();
+  </script>
+</body>
+</html>
