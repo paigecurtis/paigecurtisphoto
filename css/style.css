@@ -1057,7 +1057,7 @@ img {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, #4a6fa5 0%, #3a5a8a 100%);
-  background-image: url('../images/faq-bg.jpg');
+  background-image: url('../images/faq-bg.JPG');
   background-size: cover;
   background-position: center;
 }
