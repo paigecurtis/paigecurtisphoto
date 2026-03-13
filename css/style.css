@@ -152,6 +152,40 @@ img {
   background: var(--bg);
 }
 
+.hero-video-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #e0ddd9;
+}
+
+.hero-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 50vh;
+  object-fit: cover;
+}
+
+.hero-video-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
 .hero-tagline {
   font-family: var(--script);
   font-size: clamp(2.5rem, 6vw, 4rem);
@@ -202,16 +236,6 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.gallery-overlay {
-  width: 100%;
-  padding: 2rem 1.5rem 1rem;
-  background: linear-gradient(transparent, rgba(0,0,0,0.5));
-  color: var(--white);
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  text-align: center;
 }
 
 /* ----- Meet Paige (pink section, two columns) ----- */
@@ -295,17 +319,17 @@ img {
 
 /* ----- What to Expect ----- */
 .what-to-expect {
-  padding: 3rem 1.5rem 4rem;
-  background: var(--white);
+  padding: 4rem 1.5rem 5rem;
+  background: #faf9f7;
 }
 
 .wte-title {
   font-family: var(--serif);
-  font-size: 2rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
   font-style: italic;
   font-weight: 400;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   color: var(--text);
   display: flex;
   align-items: center;
@@ -313,34 +337,32 @@ img {
   gap: 1rem;
 }
 
-.wte-title::before,
-.wte-title::after {
-  content: '';
-  flex: 1;
-  max-width: 80px;
-  height: 1px;
-  background: var(--text-muted);
-  opacity: 0.6;
-}
-
 .wte-inner {
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 180px 1fr 130px;
-  gap: 2rem;
+  grid-template-columns: 160px 1fr 130px;
+  gap: 2.5rem;
   align-items: start;
+  background: var(--white);
+  padding: 2.5rem 2rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
 }
 
 .wte-text {
-  padding: 0 0.5rem;
+  padding: 0.25rem 0;
 }
 
 .wte-text p {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.35rem;
   font-size: 0.95rem;
-  line-height: 1.65;
+  line-height: 1.7;
   color: var(--text);
+}
+
+.wte-text p:last-child {
+  margin-bottom: 0;
 }
 
 .wte-images {
@@ -353,10 +375,10 @@ img {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  background: #e0ddd9;
+  background: #e8e6e3;
+  border-radius: 4px;
 }
 
-/* Right column: 2 taller, skinnier images = same total height as 3 on left (3×200 + 2×1rem = 632px) */
 .wte-images-right img {
   height: 308px;
 }
@@ -405,6 +427,11 @@ img {
 .spreading-love .btn {
   position: relative;
   z-index: 1;
+}
+
+.btn-sm {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
 }
 
 /* ----- Home contact section (bottom, two-col image + form) ----- */
@@ -582,11 +609,6 @@ img {
     letter-spacing: 0.25em;
   }
 
-  .gallery-overlay {
-    padding: 2rem 1rem 1rem;
-    font-size: 0.75rem;
-  }
-
   .meet-paige-inner {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -617,9 +639,14 @@ img {
     justify-content: center;
   }
 
+  .what-to-expect {
+    padding: 3rem 1.25rem 4rem;
+  }
+
   .wte-inner {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    padding: 1.5rem 1.25rem;
   }
 
   .wte-images-left,
@@ -634,6 +661,10 @@ img {
     width: 140px;
     height: 180px;
     min-width: 140px;
+  }
+
+  .wte-images-right img {
+    height: 180px;
   }
 
   .wte-title::before,
