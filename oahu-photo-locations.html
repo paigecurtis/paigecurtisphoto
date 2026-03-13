@@ -61,8 +61,13 @@
     .popup-title {
       font-size: 1.1rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.35rem;
       color: #2c2c2c;
+    }
+    .popup-time {
+      font-size: 0.85rem;
+      color: var(--text-muted, #5a5a5a);
+      margin-bottom: 0.5rem;
     }
     .popup-desc {
       font-size: 0.9rem;
@@ -213,63 +218,96 @@
           lat: 21.5556,
           lng: -157.8746,
           image: 'images/map-kahana.jpg',
-          description: 'Quiet windward bay with mountain backdrop and calm water. Great for golden hour and relaxed sessions.'
+          bestTime: 'sunrise',
+          description: 'Quiet windward bay with mountain backdrop and calm water. Great for golden hour and relaxed sessions. Best for sunrise—east side light hits here first.'
         },
         {
           name: 'Crouching Lion',
           lat: 21.5578,
           lng: -157.8614,
           image: 'images/map-crouching-lion.jpg',
-          description: 'Dramatic cliffs and ocean views. Iconic spot for adventurous couples and bold portraits.'
+          bestTime: 'sunrise',
+          description: 'Dramatic cliffs and ocean views. Iconic spot for adventurous couples and bold portraits. East side—ideal for sunrise sessions.'
         },
         {
           name: 'Lanikai Beach',
           lat: 21.3914,
           lng: -157.7150,
           image: 'images/map-lanikai.jpg',
-          description: 'Powder-white sand and turquoise water with the Mokuluas in the distance. A classic Oahu favorite.'
+          bestTime: 'sunrise',
+          description: 'Powder-white sand and turquoise water with the Mokuluas in the distance. A classic Oahu favorite. East side—best in the morning for soft sunrise light.'
         },
         {
           name: 'Makapuu Beach',
           lat: 21.3114,
           lng: -157.6586,
           image: 'images/map-makapuu.jpg',
-          description: 'Wide sandy beach with lighthouse views and strong ocean energy. Perfect for bold, scenic shots.'
+          bestTime: 'sunrise',
+          description: 'Wide sandy beach with lighthouse views and strong ocean energy. Perfect for bold, scenic shots. East-facing—sunrise works best here.'
         },
         {
-          name: 'Mokuleia Beach',
-          lat: 21.5814,
-          lng: -158.1936,
-          image: 'images/map-mokuleia.jpg',
-          description: 'North Shore stretch with fewer crowds. Great for open sky, driftwood, and golden light.'
-        },
-        {
-          name: 'Sunset Beach',
-          lat: 21.6778,
-          lng: -158.0386,
-          image: 'images/map-sunset.jpg',
-          description: 'Famous North Shore beach. Ideal for sunset sessions and that classic Hawaii vibe.'
-        },
-        {
-          name: 'Kaloko Beach',
-          lat: 21.3633,
-          lng: -157.9514,
-          image: 'images/map-kaloko.jpg',
-          description: 'West side gem with calm waters and less crowded shores. Nice for intimate sessions.'
+          name: 'Kualoa Regional Park',
+          lat: 21.5214,
+          lng: -157.8386,
+          image: 'images/map-kualoa.jpg',
+          bestTime: 'sunrise',
+          description: 'Windward coast with mountain backdrop and open green spaces. Famous for film backdrops and epic morning light. Best for sunrise sessions.'
         },
         {
           name: 'Diamond Head Beach Park',
           lat: 21.2558,
           lng: -157.8070,
           image: 'images/map-diamond-head.jpg',
-          description: 'Views of Diamond Head and the Pacific. Urban-meets-ocean with iconic Honolulu backdrop.'
+          bestTime: 'sunrise',
+          description: 'Views of Diamond Head and the Pacific. Urban-meets-ocean with iconic Honolulu backdrop. East-facing—better in the morning.'
         },
         {
           name: 'Ala Moana Beach',
           lat: 21.2887,
           lng: -157.8483,
           image: 'images/map-ala-moana.jpg',
-          description: 'Protected waters and long stretch of sand near town. Convenient and family-friendly.'
+          bestTime: 'sunrise',
+          description: 'Protected waters and long stretch of sand near town. Convenient and family-friendly. Good for morning light.'
+        },
+        {
+          name: 'Tantalus Lookout',
+          lat: 21.3326,
+          lng: -157.8148,
+          image: 'images/map-tantalus.jpg',
+          bestTime: 'sunset',
+          description: 'Panoramic views over Honolulu, Diamond Head, and the coast. Mountain vibe with city and ocean in the frame. Best at sunset for golden light.'
+        },
+        {
+          name: 'Mokuleia Beach',
+          lat: 21.5814,
+          lng: -158.1936,
+          image: 'images/map-mokuleia.jpg',
+          bestTime: 'sunset',
+          description: 'North Shore stretch with fewer crowds. Great for open sky, driftwood, and golden light. West-facing—best for sunset.'
+        },
+        {
+          name: 'Sunset Beach',
+          lat: 21.6778,
+          lng: -158.0386,
+          image: 'images/map-sunset.jpg',
+          bestTime: 'sunset',
+          description: 'Famous North Shore beach. Ideal for sunset sessions and that classic Hawaii vibe. Best in the evening.'
+        },
+        {
+          name: 'Kaloko Beach',
+          lat: 21.3085,
+          lng: -157.6620,
+          image: 'images/map-kaloko.jpg',
+          bestTime: 'sunset',
+          description: 'Quiet spot just west of Alan Davis—calm waters and less crowded. Nice for intimate sessions. Best for sunset; west-facing light.'
+        },
+        {
+          name: 'Yokohama Bay',
+          lat: 21.5650,
+          lng: -158.2580,
+          image: 'images/map-yokohama.jpg',
+          bestTime: 'sunset',
+          description: 'West side gem at the end of the road. Dramatic coastline and golden hour magic. Best at sunset—west-facing.'
         }
       ];
 
@@ -295,10 +333,17 @@
 
       locations.forEach(function (loc) {
         var imgSrc = loc.image || defaultImg;
+        var timeHtml = '';
+        if (loc.bestTime === 'sunrise') {
+          timeHtml = '<div class="popup-time">🌅 Best for sunrise—east side light</div>';
+        } else if (loc.bestTime === 'sunset') {
+          timeHtml = '<div class="popup-time">🌇 Best for sunset—west / North Shore</div>';
+        }
         var content = '<div class="popup-inner">' +
           '<img class="popup-image" src="' + imgSrc + '" alt="" onerror="this.src=\'' + defaultImg + '\'">' +
           '<div class="popup-body">' +
           '<div class="popup-title">' + escapeHtml(loc.name) + '</div>' +
+          timeHtml +
           '<div class="popup-desc">' + escapeHtml(loc.description) + '</div>' +
           '</div></div>';
         var marker = L.marker([loc.lat, loc.lng], { icon: icon })
