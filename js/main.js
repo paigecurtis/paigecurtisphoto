@@ -41,6 +41,8 @@
       if (index > maxPerCategory) return;
       var img = document.createElement('img');
       img.alt = altBase + ' ' + index;
+      img.loading = 'lazy';
+      img.decoding = 'async';
       img.src = baseUrl + 'images/' + prefix + '-' + index + '.jpg';
       img.onload = function () {
         container.appendChild(img);
