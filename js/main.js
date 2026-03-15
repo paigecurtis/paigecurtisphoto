@@ -56,4 +56,20 @@
 
     addNext();
   });
+
+  /* Lazy-load CSS background images when the section is near the viewport (speeds up Book, Home, etc.) */
+  var bgEls = document.querySelectorAll('.services-hero-bg, .process-bg, .faq-bg, .spreading-love-bg');
+  if (bgEls.length && typeof IntersectionObserver !== 'undefined') {
+    var bgObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('bg-loaded');
+          bgObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '150px', threshold: 0 });
+    bgEls.forEach(function (el) { bgObserver.observe(el); });
+  } else if (bgEls.length) {
+    bgEls.forEach(function (el) { el.classList.add('bg-loaded'); });
+  }
 })();

@@ -419,9 +419,12 @@ img {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, #5a8ab0 0%, #7ba3c9 50%, #9bb8d4 100%);
-  background-image: url('../images/spreading-love.jpg');
   background-size: cover;
   background-position: center;
+}
+
+.spreading-love-bg.bg-loaded {
+  background-image: url('../images/spreading-love.jpg');
 }
 
 .spreading-love-bg::after {
@@ -940,9 +943,12 @@ img {
   position: absolute;
   inset: 0;
   background-color: #2a2a2a;
-  background-image: url('../images/services-hero.jpg');
   background-size: cover;
   background-position: center;
+}
+
+.services-hero-bg.bg-loaded {
+  background-image: url('../images/services-hero.jpg');
 }
 
 .services-hero-title {
@@ -1155,9 +1161,12 @@ img {
   position: absolute;
   inset: 0;
   background: #1a1a1a;
-  background-image: url('../images/process-bg.jpg');
   background-size: cover;
   background-position: center;
+}
+
+.process-bg.bg-loaded {
+  background-image: url('../images/process-bg.jpg');
 }
 
 .process-bg::after {
@@ -1269,9 +1278,13 @@ img {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, #4a6fa5 0%, #3a5a8a 100%);
-  background-image: url('../images/faq-bg.JPG');
   background-size: cover;
   background-position: center;
+}
+
+.faq-bg.bg-loaded,
+.faq-image-bg.bg-loaded {
+  background-image: url('../images/faq-bg.JPG');
 }
 
 .faq-bg::after,
