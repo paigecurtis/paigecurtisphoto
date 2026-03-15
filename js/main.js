@@ -31,10 +31,10 @@
 
   /* Portfolio: 1–4 are in HTML; load 5, 6, 7, ... until one is missing. Add more files (e.g. port-couples-10.jpg), they appear. */
   var maxPerCategory = 99;
-  var baseUrl = window.location.href.replace(/[#?].*$/, '').replace(/\/[^/]*$/, '/');
   document.querySelectorAll('.portfolio-scroll-inner[data-prefix]').forEach(function (container) {
     var prefix = container.getAttribute('data-prefix');
     var altBase = container.getAttribute('data-alt') || 'Photo';
+    var baseUrl = container.getAttribute('data-base') || (window.location.href.replace(/[#?].*$/, '').replace(/\/[^/]*$/, '/'));
     var index = 5;
 
     function addNext() {
