@@ -1251,6 +1251,27 @@ img {
 }
 
 /* ========== Contact ========== */
+.thank-you-section {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.thank-you-title {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.thank-you-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
 .contact-intro {
   text-align: center;
   padding: 2rem 1.5rem 1rem;
