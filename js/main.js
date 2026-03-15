@@ -1,4 +1,14 @@
 (function () {
+  /* Hero video: force autoplay (browsers often ignore the attribute on GitHub Pages, etc.) */
+  var heroVideo = document.querySelector('.hero-video');
+  if (heroVideo) {
+    heroVideo.muted = true;
+    heroVideo.play().catch(function () {});
+    heroVideo.addEventListener('loadeddata', function () {
+      heroVideo.play().catch(function () {});
+    });
+  }
+
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.querySelector('.main-nav');
 
