@@ -99,4 +99,25 @@
     if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
     if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
   }
+
+  /* GitHub/case-sensitive servers: if an image fails to load (e.g. .jpg vs .JPG), try the same path with the extension case flipped once. */
+  document.querySelectorAll('img[src*="."]').forEach(function (img) {
+    var origOnError = img.onerror;
+    img.onerror = function () {
+      if (!img.dataset.caseRetried) {
+        img.dataset.caseRetried = '1';
+        var s = img.src;
+        var lastDot = s.lastIndexOf('.');
+        if (lastDot > -1) {
+          var base = s.substring(0, lastDot);
+          var ext = s.substring(lastDot + 1);
+          var flipped = ext === ext.toUpperCase() ? ext.toLowerCase() : ext.toUpperCase();
+          img.onerror = origOnError || null;
+          img.src = base + '.' + flipped;
+          return;
+        }
+      }
+      if (origOnError) origOnError.call(img);
+    };
+  });
 })();
