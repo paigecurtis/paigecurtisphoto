@@ -1,12 +1,21 @@
 (function () {
-  /* Hero video: force autoplay (browsers often ignore the attribute on GitHub Pages, etc.) */
+  /* Hero video: force autoplay. On mobile, browsers block autoplay until there's a user gesture—so on first tap/click anywhere, start the video. */
   var heroVideo = document.querySelector('.hero-video');
   if (heroVideo) {
     heroVideo.muted = true;
     heroVideo.play().catch(function () {});
+
     heroVideo.addEventListener('loadeddata', function () {
       heroVideo.play().catch(function () {});
     });
+
+    function tryPlayOnUserGesture() {
+      heroVideo.play().catch(function () {});
+      document.removeEventListener('touchstart', tryPlayOnUserGesture);
+      document.removeEventListener('click', tryPlayOnUserGesture);
+    }
+    document.addEventListener('touchstart', tryPlayOnUserGesture, { once: true, passive: true });
+    document.addEventListener('click', tryPlayOnUserGesture, { once: true });
   }
 
   var toggle = document.querySelector('.nav-toggle');
