@@ -72,4 +72,22 @@
   } else if (bgEls.length) {
     bgEls.forEach(function (el) { el.classList.add('bg-loaded'); });
   }
+
+  /* Kind Words From Clients: arrow through reviews (add more <blockquote class="testimonial-card"> in HTML to add reviews) */
+  var track = document.querySelector('.testimonials-track');
+  var prevBtn = document.querySelector('.testimonial-prev');
+  var nextBtn = document.querySelector('.testimonial-next');
+  if (track && (prevBtn || nextBtn)) {
+    var cards = track.querySelectorAll('.testimonial-card');
+    var total = cards.length;
+    var current = 0;
+
+    function goTo(index) {
+      current = (index + total) % total;
+      track.style.transform = 'translateX(-' + current * 100 + '%)';
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
+  }
 })();
