@@ -157,13 +157,9 @@ img {
 .home-hero-bg {
   position: absolute;
   inset: 0;
-  background-color: #2a2a2a;
+  background-image: url('../images/port-couples-5.jpg');
   background-size: cover;
   background-position: center;
-}
-
-.home-hero-bg.bg-loaded {
-  background-image: url('../images/port-couples-5.jpg');
 }
 
 .home-hero-title {
