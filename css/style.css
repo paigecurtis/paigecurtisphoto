@@ -145,33 +145,6 @@ img {
   color: var(--accent);
 }
 
-.home-hero {
-  position: relative;
-  height: 45vh;
-  min-height: 280px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.home-hero-bg {
-  position: absolute;
-  inset: 0;
-  background-image: url('../images/port-couples-5.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
-.home-hero-title {
-  position: relative;
-  z-index: 1;
-  font-family: var(--sans);
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 300;
-  color: var(--white);
-  letter-spacing: 0.02em;
-}
-
 /* ----- Hero ----- */
 .hero {
   padding: 8rem 1.5rem 4rem;
