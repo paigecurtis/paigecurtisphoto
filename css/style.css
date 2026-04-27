@@ -535,7 +535,7 @@ img {
 }
 
 .spreading-love-bg.bg-loaded {
-  background-image: url('../images/spreading-love.jpg');
+  background-image: url('../images/spreading-love.jpeg');
 }
 
 .spreading-love-bg::after {
@@ -1059,7 +1059,7 @@ img {
 }
 
 .services-hero-bg.bg-loaded {
-  background-image: url('../images/services-hero.jpg');
+  background-image: url('../images/services-hero.jpeg');
 }
 
 .services-hero-title {
@@ -1395,7 +1395,7 @@ img {
 
 .faq-bg.bg-loaded,
 .faq-image-bg.bg-loaded {
-  background-image: url('../images/faq-bg.JPG');
+  background-image: url('../images/faq-bg.jpeg');
 }
 
 .faq-bg::after,
