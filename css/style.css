@@ -1198,6 +1198,37 @@ img {
 }
 
 /* ========== Portfolio ========== */
+.portfolio-hero {
+  position: relative;
+  height: 45vh;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portfolio-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-color: #2a2a2a;
+  background-size: cover;
+  background-position: center;
+}
+
+.portfolio-hero-bg.bg-loaded {
+  background-image: url('../images/portfolio-hero.jpeg');
+}
+
+.portfolio-hero-title {
+  position: relative;
+  z-index: 1;
+  font-family: var(--sans);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 300;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+
 .portfolio-intro {
   padding: 3rem 1.5rem 1.5rem;
   max-width: 720px;
