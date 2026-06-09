@@ -1213,9 +1213,6 @@ img {
   background-color: #2a2a2a;
   background-size: cover;
   background-position: center;
-}
-
-.portfolio-hero-bg.bg-loaded {
   background-image: url('../images/portfolio-hero.jpeg');
 }
 
